@@ -1,0 +1,87 @@
+Nginx two domain configuration in single IP address on ubuntu 
+
+
+https://www.youtube.com/watch?v=xQhRZLGv4_4
+
+    2  apt update
+    3  apt install nginx
+    4  clear
+    5  sudo mkdir -p /var/www/sabarish.casacam.net/public_html/
+    6  sudo mkdir -p /var/www/siva.casacam.net/public_html/
+    7  chown -R ubuntu:ubuntu /var/www/sabarish.casacam.net/public_html/
+    8  chown -R ubuntu:ubuntu /var/www/siva.casacam.net/public_html/
+    9  chmod 775 /var/www/sabarish.casacam.net/public_html/
+   10  chmod 775 /var/www/siva.casacam.net/public_html/
+   11  cd /var/www/
+   12  ls
+   13  cd sabarish.casacam.net
+   14  ls
+   15  cd public_html/
+   16  ls
+   17  echo "hello" >index.html
+   18  ls
+   19  cat index.html
+   20  cd ..
+   21  ls
+   22  cd ..
+   23  ls
+   24  cd siva.casacam.net/
+   25  cd public_html/
+   26  echo "hello number2">index.html
+   27  ls
+   28  cat index.html 
+   29  cd ..
+   30  cd /etc/nginx/
+   31  ls
+   32  cd sites-available/
+   33  ls
+   34  nano sabarish.casacam.net
+   35  vi sabarish.casacam.net
+   36  cp sabarish.casacam.net siva.casacam.net
+   37  sudo vi siva.casacam.net 
+   38  cd ../sites-enabled/ 	you can remove default config ok.
+   39  la
+   40  rm -rf default 
+   41  ls
+   42  cd ../sites-available/
+   43  sudo ln -s /etc/nginx/sites-available/sabarish.casacam.net ../sites-enabled/sabarish.casacam.net
+   44  sudo ln -s /etc/nginx/sites-available/siva.casacam.net ../sites-enabled/siva.casacam.net
+   45  systemctl restart nginx
+   46  hostname -i
+   48  sudo vi /etc/hosts 	add you 2 domain name In one by one ok.
+   49  nslookup sabarish.casacam.net 
+   50  nslookup siva.casacam.net
+
+
+
+Cd /etc/nginx/sites-available
+
+server {
+        listen *:80 default_server;
+        listen [::]:80 default_server;
+
+        server_name sabarish.casacam.net www.sabarish.casacam.net;
+
+        location / {
+                root /var/www/sabarish.casacam.net/public_html/;
+                index index.html;
+        }
+
+}
+      
+Second domain config file must one file set to default ok . 
+
+server {
+        listen *:80;
+        listen [::]:80;
+
+        server_name sabarish.casacam.net www.sabarish.casacam.net;
+
+        location / {
+                root /var/www/sabarish.casacam.net/public_html/;
+                index index.html;
+        }
+
+}
+
+
